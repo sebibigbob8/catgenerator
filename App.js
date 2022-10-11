@@ -4,17 +4,20 @@ import { useState } from "react";
 
 export default function App() {
   const [catURL, setCatURL] = useState(" ");
+  const [loading, setLoading] = useState(false);
 
   const getCat = () => {
+    setLoading(true)
     fetch("https://aws.random.cat/meow")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setCatURL(data.file);
+        setLoading(false)
       });
   };
-  //getCat();
+
   return (
     <View style={styles.container}>
       <Text>My first app with React Native</Text>
@@ -32,6 +35,8 @@ export default function App() {
           uri: catURL,
         }}
       />
+
+      <Text>{loading ? 'chargement....' : ''}</Text>
       <StatusBar style="auto" />
     </View>
   );
